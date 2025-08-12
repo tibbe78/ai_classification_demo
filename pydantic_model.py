@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 from enum import Enum
 from typing import List
 
@@ -57,18 +58,27 @@ class TicketClassification(BaseModel):
     urgency: TicketUrgency
     sentiment: CustomerSentiment
     need_to_go_to_toilet: TicketNeedToGoToToilet
+    
+    confidence: Optional[float] = None
     confidence: float = Field(
         ge=0, le=1, description="Confidence score for the classification"
     )
+    
+    contain_PII_info: Optional[float] = None
     contain_PII_info: float = Field(
         ge=0,
         le=1,
         description="Score off how much and criticality of the Personally identifiable information (PII) the ticket contains. 0.0 for none and 1.0 for social security numbers",
     )
+   
     pii_type: Ticket_PII_Category
+    
+    key_information: Optional[List] = None
     key_information: List[str] = Field(
         description="List of key points extracted from the ticket"
     )
+    
+    suggested_action: Optional[str] = None
     suggested_action: str = Field(
         description="Brief suggestion for handling the ticket"
     )
