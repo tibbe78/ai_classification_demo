@@ -59,26 +59,22 @@ class TicketClassification(BaseModel):
     sentiment: CustomerSentiment
     need_to_go_to_toilet: TicketNeedToGoToToilet
     
-    confidence: Optional[float] = None
-    confidence: float = Field(
+    confidence: Optional[float] = Field(
+        default=None,
         ge=0, le=1, description="Confidence score for the classification"
     )
-    
-    contain_PII_info: Optional[float] = None
-    contain_PII_info: float = Field(
+    contain_PII_info: Optional[float] = Field(
+        default=None,
         ge=0,
         le=1,
         description="Score off how much and criticality of the Personally identifiable information (PII) the ticket contains. 0.0 for none and 1.0 for social security numbers",
     )
-   
     pii_type: Ticket_PII_Category
-    
-    key_information: Optional[List] = None
-    key_information: List[str] = Field(
+    key_information: Optional[List[str]] = Field(
+        default=None,
         description="List of key points extracted from the ticket"
     )
-    
-    suggested_action: Optional[str] = None
-    suggested_action: str = Field(
+    suggested_action: Optional[str] = Field(
+        default=None,
         description="Brief suggestion for handling the ticket"
     )
