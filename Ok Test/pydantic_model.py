@@ -37,13 +37,14 @@ class TicketClassification(BaseModel):
     urgency: TicketUrgency
     sentiment: CustomerSentiment
     
-    confidence: Optional[float] = Field(
+    confidence: float = Field(
+        default=0.0,
         ge=0.0, 
         le=1.0, 
         description="Confidence score for the classification 0.0 = none and 1.0 high confidence"
     )
     
-    contain_PII_info: Optional[float] = Field(
+    contain_PII_info: float = Field(
         default=0.0,
         ge=0.0,
         le=1.0,
@@ -52,12 +53,12 @@ class TicketClassification(BaseModel):
     
     pii_type: Ticket_PII_Category
     
-    key_information: Optional[List[str]] = Field(
-        default=None,
+    key_information: List[str] = Field(
+        default=["N/A"],
         description="List of key points extracted from the ticket"
     )
     
-    suggested_action: Optional[str] = Field(
-        default=None,
+    suggested_action: str = Field(
+        default="N/A",
         description="Brief suggestion for handling the ticket"
     )
