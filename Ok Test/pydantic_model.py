@@ -3,6 +3,7 @@ from typing import Optional
 from enum import Enum
 from typing import List
 
+
 class TicketCategory(str, Enum):
     ORDER_ISSUE = "order_issue"
     ACCOUNT_ACCESS = "account_access"
@@ -11,17 +12,20 @@ class TicketCategory(str, Enum):
     BILLING = "billing"
     OTHER = "other"
 
+
 class CustomerSentiment(str, Enum):
     ANGRY = "angry"
     FRUSTRATED = "frustrated"
     NEUTRAL = "neutral"
     SATISFIED = "satisfied"
 
+
 class TicketUrgency(str, Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
+
 
 class Ticket_PII_Category(str, Enum):
     NONE = "no PII data"
@@ -36,28 +40,33 @@ class TicketClassification(BaseModel):
     category: TicketCategory
     urgency: TicketUrgency
     sentiment: CustomerSentiment
-    
+
     confidence: float = Field(
-        default=0.0,
-        ge=0.0, 
-        le=1.0, 
-        description="Confidence score for the classification 0.0 = none and 1.0 high confidence"
-    )
-    
-    contain_PII_info: float = Field(
-        default=0.0,
         ge=0.0,
         le=1.0,
-        description="Score off how much and criticality of the Personally identifiable information (PII) the ticket contains. 0.0 for none and 1.0 for lots of PII data such as social security numbers",
+        description=(
+            "Confidence score for the general classification. "
+            "Must always be a number between 0.0 and 1.0 (never None). "
+            "Example: 0.85 means high confidence, 0.0 means no confidence."
+        )
     )
-    
+
+    contain_PII_info: float = Field(
+        ge=0.0,
+        le=1.0,
+        description=(
+            "Score indicating the likelihood that the ticket contains Personal Identifiable Information (PII). "
+            "Must always be a number between 0.0 (no PII present) and 1.0 (definitely contains PII, such as names, addresses, or social security numbers). "
+            "Never return None. Example: 0.85 means high likelihood of PII, 0.0 means no PII detected."        )
+    )
+
     pii_type: Ticket_PII_Category
-    
+
     key_information: List[str] = Field(
         default=["N/A"],
         description="List of key points extracted from the ticket"
     )
-    
+
     suggested_action: str = Field(
         default="N/A",
         description="Brief suggestion for handling the ticket"
