@@ -40,18 +40,23 @@ class TicketClassification(BaseModel):
     confidence: Optional[float] = Field(
         ge=0.0, 
         le=1.0, 
-        description="Confidence score for the classification"
+        description="Confidence score for the classification 0.0 = none and 1.0 high confidence"
     )
+    
     contain_PII_info: Optional[float] = Field(
+        default=0.0,
         ge=0.0,
         le=1.0,
-        description="Score off how much and criticality of the Personally identifiable information (PII) the ticket contains. 0.0 for none and 1.0 for social security numbers",
+        description="Score off how much and criticality of the Personally identifiable information (PII) the ticket contains. 0.0 for none and 1.0 for lots of PII data such as social security numbers",
     )
+    
     pii_type: Ticket_PII_Category
+    
     key_information: Optional[List[str]] = Field(
         default=None,
         description="List of key points extracted from the ticket"
     )
+    
     suggested_action: Optional[str] = Field(
         default=None,
         description="Brief suggestion for handling the ticket"
