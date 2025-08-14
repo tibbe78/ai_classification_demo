@@ -38,6 +38,7 @@ class Ticket_PII_Category(str, Enum):
 
 class TicketClassification(BaseModel):
     category: TicketCategory
+    
     urgency: TicketUrgency
     sentiment: CustomerSentiment
 
@@ -45,8 +46,8 @@ class TicketClassification(BaseModel):
         ge=0.0,
         le=1.0,
         description=(
-            "Confidence score for the general classification. "
-            "Must always be a number between 0.0 and 1.0 (never None). "
+            "Confidence score for your classification of Ticket Urgency and Customer Sentiment of the ticket. "
+            "Must always be a float between 0.0 and 1.0 (never None). "
             "Example: 0.85 means high confidence, 0.0 means no confidence."
         )
     )
@@ -56,7 +57,7 @@ class TicketClassification(BaseModel):
         le=1.0,
         description=(
             "Score indicating the likelihood that the ticket contains Personal Identifiable Information (PII). "
-            "Must always be a number between 0.0 (no PII present) and 1.0 (definitely contains PII, such as names, addresses, or social security numbers). "
+            "Must always be a float between 0.0 (no PII present) and 1.0 (definitely contains PII, such as names, addresses, or social security numbers). "
             "Never return None. Example: 0.85 means high likelihood of PII, 0.0 means no PII detected."        )
     )
 
